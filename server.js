@@ -4,7 +4,7 @@ require('dotenv').config();
 
 
 //Routes
-
+const clientRoutes = require('./routes/clientRoute');
 const app = express();
 
 // Middlewares
@@ -12,7 +12,7 @@ const app = express();
 
 
 //Routes
-
+app.use('/api', clientRoutes);
 
 
 
@@ -28,3 +28,4 @@ mongoose
   .catch((err) => console.log(err));
   
 const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
