@@ -4,12 +4,10 @@ const mongoose = require('mongoose');
 const clientSchema = new mongoose.Schema({
     companyName: {
         type: String,
-        trim: true,
         required: true
     },
     companyAddress: {
         type: String,
-        trim: true,
         required: true
     },
     companyEmail: {
@@ -19,12 +17,10 @@ const clientSchema = new mongoose.Schema({
     },
     personInCharge: {
         type: String,
-        trim: true,
         required: true 
     },
     paymentTerm: {
         type: Number,
-        trim: true,
         required: true,
     },
 });

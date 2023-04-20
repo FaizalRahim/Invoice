@@ -2,15 +2,8 @@ const Client = require ('../models/clientModel');
 
 // Create a new client
 const createClient = async(req,res) => {
-    const client = new Client({
-        companyName: req.body.companyName,
-        companyAddress: req.body.companyAddress,
-        companyEmail: req.body.companyEmail,
-        personInCharge: req.body.personInCharge,
-        paymentTerm: req.body.paymentTerm
-    });
     try {
-        const newClient = await client.save();
+        const newClient = await Client.create(req.body);
         res.status(201).json(newClient);
     } catch (error){
         res.status(400).json({message: error.message});
@@ -47,6 +40,8 @@ const deleteClient = async (req,res) =>{
         if(client === null) {
             return res.status(404).json({message: "Client not found"});
         }
+        await Client.findByIdAndDelete(req.params.id);
+        res.json({ message: "Client deleted" });
     } catch (error) {
         res.status(500).json({message: error.message})
     };
