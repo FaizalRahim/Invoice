@@ -5,6 +5,10 @@ require('dotenv').config();
 
 
 const clientRoutes = require('./routes/clientRoute');
+const productRoutes = require('./routes/productRoute');
+const invoiceRoutes = require('./routes/invoiceRoute');
+const emailRoutes = require('./routes/emailRoute');
+
 const app = express();
 
 // Middlewares
@@ -14,7 +18,10 @@ app.use(express.json());
 
 
 //Routes
-app.use('/api', clientRoutes);
+app.use('/api/clients', clientRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/invoices', invoiceRoutes);
+app.use('/api/email', emailRoutes);
 
 
 
