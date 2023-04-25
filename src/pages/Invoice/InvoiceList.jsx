@@ -6,6 +6,7 @@ import { saveAs } from 'file-saver';
 
 function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
   const navigateTo = useNavigate();
 
   useEffect(() => {
@@ -46,7 +47,7 @@ function InvoiceList() {
   };
 
   const generatePdfBlob = async (data) => {
-    // (Existing code to extract necessary information and generate PDF invoice)
+    
   
     return new Promise(async (resolve) => {
       easyinvoice.createInvoice(data, async (result) => {
@@ -86,19 +87,16 @@ function InvoiceList() {
         "sender": {
           "company": "",
           "address": "",
-          "zip": "", // Add zip code here if available
-          "city": "", // Add city here if available
-          "country": "" // Add country here if available
         },
         "client": {
           "company": companyName, // Add client company name here if available
           "address": companyAddress, // Add client address here if available
-          "zip": "", // Add client zip code here if available
-          "city": "", // Add client city here if available
-          "country": "" // Add client country here if available
         },
-        "invoiceNumber": invoiceNumber.toString(),
-        "invoiceDate": new Date(invoiceDate).toLocaleDateString(),
+        "information": {
+          "number": invoiceNumber.toString(),
+          "date": new Date(invoiceDate).toLocaleDateString(),
+          "due-date": new Date(dueDate).toLocaleDateString(),
+        },
         "products": lineItems.map(item => ({
           "quantity": item.quantity,
           "description": item.product.productName,
@@ -154,12 +152,12 @@ function InvoiceList() {
         "client": {
           "company": companyName, // Add client company name here if available
           "address": companyAddress, // Add client address here if available
-          "zip": "", // Add client zip code here if available
-          "city": "", // Add client city here if available
-          "country": "" // Add client country here if available
         },
-        "invoiceNumber": invoiceNumber.toString(),
-        "invoiceDate": new Date(invoiceDate).toLocaleDateString(),
+        "information": {
+          "number": invoiceNumber.toString(),
+          "date": new Date(invoiceDate).toLocaleDateString(),
+          "due-date": new Date(dueDate).toLocaleDateString(),
+        },
         "products": lineItems.map(item => ({
           "quantity": item.quantity,
           "description": item.product.productName,
@@ -184,6 +182,7 @@ function InvoiceList() {
           'Content-Type': 'multipart/form-data'
         }
       });
+      setSuccessMessage(`Email sent successfully for invoice ${invoiceNumber}.`);
       console.log(emailResponse.data);
     } catch (error) {
       console.log(error);
@@ -197,6 +196,7 @@ function InvoiceList() {
   return (
     <div>
       <h1>Invoices</h1>
+      {successMessage && <p>{successMessage}</p>}
       <ul>
         {invoices.map(invoice => (
           <li key={invoice._id}>

@@ -15,13 +15,14 @@ function EditInvoice(props) {
       .then(response => response.json())
       .then(data => {
         setInvoice(data);
-        setCompanyName(data.companyName);
+        setCompanyName(data.companyName.name);
         setInvoiceNumber(data.invoiceNumber);
-        setDueDate(data.dueDate);
+        setDueDate(data.dueDate ? new Date(data.dueDate).toISOString().substring(0, 10) : ''); // Convert date to "yyyy-MM-dd" format
         setLineItems(data.lineItems);
       })
       .catch(error => console.log(error));
   }, [invoiceId]);
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -92,3 +93,6 @@ function EditInvoice(props) {
 }
 
 export default EditInvoice;
+
+
+

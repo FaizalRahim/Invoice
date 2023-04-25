@@ -27,6 +27,12 @@ function EditClient(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!validator.isEmail(companyEmail)) {
+      console.log('Invalid email address');
+      return;
+    }
+
     try {
       const response = await fetch(`/api/clients/${client._id}`, {
         method: 'PUT',

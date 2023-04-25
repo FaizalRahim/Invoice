@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import validator from 'validator';
 
 
 function CreateProduct(props) {
@@ -10,7 +11,16 @@ function CreateProduct(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Pending validation
+    // Validate input values
+    if (!validator.isLength(productName, { min: 1, max: 255 })) {
+      alert('Product name must be between 1 and 255 characters');
+      return;
+    }
+
+    if (!validator.isNumeric(unitPrice.toString())) {
+      alert('Invalid unit price');
+      return;
+    }
 
 
     // Send data to server

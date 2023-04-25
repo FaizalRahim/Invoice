@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
+const auth = require('../middleware/auth');
 
 // Create a new product
 router.post('/', productController.createProduct);

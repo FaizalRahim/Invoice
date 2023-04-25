@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import validator from 'validator';
 
 function CreateClient(props) {
   const [companyName, setCompanyName] = useState('');
@@ -12,7 +12,15 @@ function CreateClient(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Pending validation
+    // Validate input fields
+    if (!validator.isEmail(companyEmail)) {
+      console.log('Invalid email');
+      return;
+    }
+    if (!validator.isNumeric(paymentTerm)) {
+      console.log('Payment term must be a number');
+      return;
+    }
 
 
     // Send data to server

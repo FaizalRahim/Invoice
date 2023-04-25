@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate  } from 'react-router-dom';
+import validator from 'validator';
 
 function EditProduct(props) {
   const { productId } = useParams();
@@ -21,6 +22,13 @@ function EditProduct(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Validate input values
+    if (!validator.isNumeric(unitPrice)) {
+      alert('Invalid unit price');
+      return;
+    }
+
     try {
       const response = await fetch(`/api/products/${product._id}`, {
         method: 'PUT',
