@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 
@@ -34,7 +35,11 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    res.status(200).json({ message: 'Login successful' });
+    // Generate JWT token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    // Send JWT token to client
+    res.json({ token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

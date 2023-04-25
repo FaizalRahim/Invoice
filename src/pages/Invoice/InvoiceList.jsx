@@ -84,7 +84,6 @@ function InvoiceList() {
         companyBankAccount,
       } = companyData;
 
-      // Transform invoice data to the format expected by easyinvoice
       const data = {
         "documentTitle": "INVOICE",
         "locale": "en",
@@ -143,7 +142,6 @@ function InvoiceList() {
       const invoiceData = invoiceResponse.data;
       const companyData = companyResponse.data[0];
 
-      // Extract necessary information from invoiceData
       const {
       companyName: { companyName, companyAddress, companyEmail },
       invoiceNumber,
@@ -158,7 +156,6 @@ function InvoiceList() {
         companyBankAccount,
       } = companyData;
 
-      // Transform invoice data to the format expected by easyinvoice
       const data = {
         "documentTitle": "INVOICE",
         "locale": "en",

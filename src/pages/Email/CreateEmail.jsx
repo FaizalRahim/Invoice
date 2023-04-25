@@ -22,17 +22,14 @@ function EmailForm(props) {
 
   useEffect(() => {
     if (selectedInvoice) {
-      // Fetch invoice details from API
       fetch(`/api/invoices/${selectedInvoice}`)
         .then((response) => response.json())
         .then((data) => {
-          // Set invoiceDetails state with received data
           setInvoiceDetails(data);
-          console.log(invoiceDetails); // Add this line
+          console.log(invoiceDetails); 
         })
         .catch((error) => console.log(error));
     } else {
-      // Reset invoiceDetails state
       setInvoiceDetails(null);
     }
   }, [selectedInvoice]);

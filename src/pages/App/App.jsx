@@ -13,14 +13,16 @@ import CreateUser from '../User/CreateUser';
 import Login from '../User/Login';
 import CompanyDetails from '../CompanyDetails/CompanyDetails';
 
+
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
   };
 
