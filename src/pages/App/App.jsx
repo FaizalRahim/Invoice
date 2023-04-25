@@ -11,6 +11,7 @@ import InvoiceList from '../Invoice/InvoiceList';
 import EditInvoice from '../Invoice/EditInvoice';
 import CreateUser from '../User/CreateUser';
 import Login from '../User/Login';
+import CompanyDetails from '../CompanyDetails/CompanyDetails';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,41 +27,52 @@ function App() {
   return (
     <div className="p-4">
       <Router>
-        <nav className="flex flex-wrap justify-center">
-          {isLoggedIn && (
-            <>
-              <Link to="/clients" className="p-4 hover:text-gray-700">
-                Client List
-              </Link>
-              <Link to="/createClient" className="p-4 hover:text-gray-700">
-                Create Client
-              </Link>
-              <Link to="/products" className="p-4 hover:text-gray-700">
-                Product List
-              </Link>
-              <Link to="/createProduct" className="p-4 hover:text-gray-700">
-                Create Product
-              </Link>
-              <Link to="/invoices" className="p-4 hover:text-gray-700">
-                Invoice List
-              </Link>
-              <Link to="/createInvoice" className="p-4 hover:text-gray-700">
-                Create Invoice
-              </Link>
-              <Link to="/createUser" className="p-4 hover:text-gray-700">
-                Create User
-              </Link>
-              <button onClick={handleLogout}>Logout</button>
-            </>
-          )}
-          {!isLoggedIn && (
-            <Link to="/" className="p-4 hover:text-gray-700">
-            
-            </Link>
-          )}
+        <nav className="bg-white shadow-md">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between py-4">
+              <div className="flex space-x-4">
+                {isLoggedIn && (
+                  <>
+                    <Link to="/clients" className="text-gray-700 hover:text-gray-900">
+                      Client List
+                    </Link>
+                    <Link to="/createClient" className="text-gray-700 hover:text-gray-900">
+                      Create Client
+                    </Link>
+                    <Link to="/products" className="text-gray-700 hover:text-gray-900">
+                      Product List
+                    </Link>
+                    <Link to="/createProduct" className="text-gray-700 hover:text-gray-900">
+                      Create Product
+                    </Link>
+                    <Link to="/invoices" className="text-gray-700 hover:text-gray-900">
+                      Invoice List
+                    </Link>
+                    <Link to="/createInvoice" className="text-gray-700 hover:text-gray-900">
+                      Create Invoice
+                    </Link>
+                    <Link to="/createUser" className="text-gray-700 hover:text-gray-900">
+                      Create User
+                    </Link>
+                    <Link to="/company" className="text-gray-700 hover:text-gray-900">
+                      Company Details
+                    </Link>
+                  </>
+                )}
+              </div>
+              {isLoggedIn && (
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                >
+                  Logout
+                </button>
+              )}
+            </div>
+          </div>
         </nav>
         <Routes>
-        <Route path="/" element={<Login onLogin={handleLogin} />} />
+          <Route path="/" element={<Login onLogin={handleLogin} />} />
           {isLoggedIn && (
             <>
               <Route path="/clients" element={<ClientList />} />
@@ -73,6 +85,7 @@ function App() {
               <Route path="/createInvoice" element={<CreateInvoice />} />
               <Route path="/Invoice/edit/:invoiceId" element={<EditInvoice />} />
               <Route path="/createUser" element={<CreateUser />} />
+              <Route path="/company" element={<CompanyDetails />} />
             </>
           )}
         </Routes>
@@ -82,7 +95,3 @@ function App() {
 }
 
 export default App;
-
-
-
-

@@ -7,6 +7,7 @@ function EditProduct(props) {
   const [product, setProduct] = useState({});
   const [productName, setProductName] = useState('');
   const [unitPrice, setUnitPrice] = useState('');
+  const [unitPriceError, setUnitPriceError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,8 +26,10 @@ function EditProduct(props) {
 
     // Validate input values
     if (!validator.isNumeric(unitPrice)) {
-      alert('Invalid unit price');
+      setUnitPriceError('Invalid unit price');
       return;
+    } else {
+      setUnitPriceError('');
     }
 
     try {
@@ -69,6 +72,7 @@ function EditProduct(props) {
             value={unitPrice}
             onChange={e => setUnitPrice(e.target.value)}
           />
+          {unitPriceError && <p className="error">{unitPriceError}</p>}
         </div>
         <button type="submit">Save</button>
       </form>

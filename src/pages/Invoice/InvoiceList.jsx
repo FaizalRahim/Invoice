@@ -61,8 +61,13 @@ function InvoiceList() {
 
   const handleGeneratePdf = async (id) => {
     try {
-      const response = await axios.get(`/api/invoices/${id}`);
-      const invoiceData = response.data;
+      const [invoiceResponse, companyResponse] = await Promise.all([
+        axios.get(`/api/invoices/${id}`),
+        axios.get('/api/company'),
+      ]);
+  
+      const invoiceData = invoiceResponse.data;
+      const companyData = companyResponse.data[0];
 
       // Extract necessary information from invoiceData
       const {
@@ -73,24 +78,35 @@ function InvoiceList() {
       invoiceDate,
     } = invoiceData;
 
+      const {
+        userCompanyName,
+        userCompanyAddress,
+        companyBankAccount,
+      } = companyData;
+
       // Transform invoice data to the format expected by easyinvoice
       const data = {
         "documentTitle": "INVOICE",
         "locale": "en",
-        "currency": "USD",
-        "taxNotation": "vat",
+        "currency": "SGD",
+        "taxNotation": "GST",
         "marginTop": 25,
         "marginRight": 25,
         "marginLeft": 25,
         "marginBottom": 25,
         "logo": "", // Add your logo URL here
         "sender": {
-          "company": "",
-          "address": "",
+          "company": userCompanyName,
+          "address": userCompanyAddress,
+          
+        },
+        "translate": {
+          "number": "Invoice Number",
+          "vat" : "GST"
         },
         "client": {
-          "company": companyName, // Add client company name here if available
-          "address": companyAddress, // Add client address here if available
+          "company": companyName, 
+          "address": companyAddress, 
         },
         "information": {
           "number": invoiceNumber.toString(),
@@ -100,7 +116,7 @@ function InvoiceList() {
         "products": lineItems.map(item => ({
           "quantity": item.quantity,
           "description": item.product.productName,
-          "tax": 0, // Add tax rate here if available
+          "tax-rate": 8, 
           "price": item.product.unitPrice
         })),
       };
@@ -119,39 +135,52 @@ function InvoiceList() {
 
   const handleSendEmail = async (id) => {
     try {
-      const response = await axios.get(`/api/invoices/${id}`);
-      const invoiceData = response.data;
+      const [invoiceResponse, companyResponse] = await Promise.all([
+        axios.get(`/api/invoices/${id}`),
+        axios.get('/api/company'),
+      ]);
   
+      const invoiceData = invoiceResponse.data;
+      const companyData = companyResponse.data[0];
+
       // Extract necessary information from invoiceData
       const {
-        companyName: { companyName, companyAddress, companyEmail },
-        invoiceNumber,
-        dueDate,
-        lineItems,
-        invoiceDate,
-      } = invoiceData;
-  
+      companyName: { companyName, companyAddress, companyEmail },
+      invoiceNumber,
+      dueDate,
+      lineItems,
+      invoiceDate,
+    } = invoiceData;
+
+      const {
+        userCompanyName,
+        userCompanyAddress,
+        companyBankAccount,
+      } = companyData;
+
       // Transform invoice data to the format expected by easyinvoice
       const data = {
         "documentTitle": "INVOICE",
         "locale": "en",
-        "currency": "USD",
-        "taxNotation": "vat",
+        "currency": "SGD",
+        "taxNotation": "GST",
         "marginTop": 25,
         "marginRight": 25,
         "marginLeft": 25,
         "marginBottom": 25,
         "logo": "", // Add your logo URL here
         "sender": {
-          "company": "",
-          "address": "",
-          "zip": "", // Add zip code here if available
-          "city": "", // Add city here if available
-          "country": "" // Add country here if available
+          "company": userCompanyName,
+          "address": userCompanyAddress,
+          
+        },
+        "translate": {
+          "number": "Invoice Number",
+          "vat" : "GST"
         },
         "client": {
-          "company": companyName, // Add client company name here if available
-          "address": companyAddress, // Add client address here if available
+          "company": companyName, 
+          "address": companyAddress, 
         },
         "information": {
           "number": invoiceNumber.toString(),
@@ -161,10 +190,11 @@ function InvoiceList() {
         "products": lineItems.map(item => ({
           "quantity": item.quantity,
           "description": item.product.productName,
-          "tax": 0, // Add tax rate here if available
+          "tax-rate": 8, 
           "price": item.product.unitPrice
         })),
       };
+
   
       // Generate the invoice PDF
       const pdfBlob = await generatePdfBlob(data);
@@ -202,8 +232,8 @@ function InvoiceList() {
           <li key={invoice._id}>
             <strong>{invoice.invoiceNumber}</strong> 
             <button onClick={() => handleDelete(invoice._id)}>Delete</button>
-            <button onClick={() => handleEdit(invoice._id)}>Edit</button>
-            <button onClick={() => handleGeneratePdf(invoice._id)}>Generate PDF</button>
+            <button onClick={() => handleEdit(invoice._id)}>Edit </button>
+            <button onClick={() => handleGeneratePdf(invoice._id)}>Download PDF</button>
             <button onClick={() => handleSendEmail(invoice._id)}>Send Email</button>
           </li>
         ))}

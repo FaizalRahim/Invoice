@@ -8,7 +8,8 @@ const clientRoutes = require('./routes/clientRoute');
 const productRoutes = require('./routes/productRoute');
 const invoiceRoutes = require('./routes/invoiceRoute');
 const emailRoutes = require('./routes/emailRoute');
-const userRoutes = require('./routes/userRoute')
+const userRoutes = require('./routes/userRoute');
+const userCompanyRoutes = require('./routes/userCompanyRoute');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/email', emailRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/company', userCompanyRoutes)
 
 
 

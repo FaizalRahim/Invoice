@@ -1,27 +1,32 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import validator from 'validator';
-
+import { useNavigate } from 'react-router-dom';
 
 function CreateProduct(props) {
   const [productName, setProductName] = useState('');
   const [unitPrice, setUnitPrice] = useState('');
-
+  const [productNameError, setProductNameError] = useState('');
+  const [unitPriceError, setUnitPriceError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Validate input values
     if (!validator.isLength(productName, { min: 1, max: 255 })) {
-      alert('Product name must be between 1 and 255 characters');
+      setProductNameError('Product name must be between 1 and 255 characters');
       return;
+    } else {
+      setProductNameError('');
     }
 
     if (!validator.isNumeric(unitPrice.toString())) {
-      alert('Invalid unit price');
+      setUnitPriceError('Invalid unit price');
       return;
+    } else {
+      setUnitPriceError('');
     }
-
 
     // Send data to server
     try {
@@ -36,7 +41,7 @@ function CreateProduct(props) {
   
       if (response.status === 201) {
         const product = response.data;
-        props.onProductCreated(product);
+        navigate('/products');
       } else {
         console.log('Failed to create product');
       }
@@ -47,15 +52,17 @@ function CreateProduct(props) {
 
   return (
     <div>
-      <h1>Create Client</h1>
+      <h1>Create Product</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="productName">Product Name:</label>
           <input type="text" id="productName" value={productName} onChange={(event) => setProductName(event.target.value)} />
+          {productNameError && <p className="error">{productNameError}</p>}
         </div>
         <div>
           <label htmlFor="unitPrice">Unit Price:</label>
           <input type="number" id="unitPrice" value={unitPrice} onChange={(event) => setUnitPrice(event.target.value)} />
+          {unitPriceError && <p className="error">{unitPriceError}</p>}
         </div>
         <button type="submit">Create</button>
       </form>

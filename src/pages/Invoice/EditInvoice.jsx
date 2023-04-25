@@ -15,13 +15,30 @@ function EditInvoice(props) {
       .then(response => response.json())
       .then(data => {
         setInvoice(data);
-        setCompanyName(data.companyName.name);
-        setInvoiceNumber(data.invoiceNumber);
-        setDueDate(data.dueDate ? new Date(data.dueDate).toISOString().substring(0, 10) : ''); // Convert date to "yyyy-MM-dd" format
-        setLineItems(data.lineItems);
+        setCompanyName(data.companyName.companyName || '');
+        setInvoiceNumber(data.invoiceNumber || '');
+        setDueDate(data.dueDate ? new Date(data.dueDate).toISOString().substring(0, 10) : '');
+        setLineItems(data.lineItems.map(item => ({
+          product: {
+            ...item.product,
+            _id: item.product._id || '',
+            productName: item.product.productName || '',
+            unitPrice: item.product.unitPrice || 0,
+            __v: item.product.__v || 0
+          },
+          quantity: item.quantity || 0,
+          _id: item._id || ''
+        })));
       })
       .catch(error => console.log(error));
   }, [invoiceId]);
+  
+
+  const handleLineItemChange = (index, key, value) => {
+    const updatedLineItems = [...lineItems];
+    updatedLineItems[index][key] = value;
+    setLineItems(updatedLineItems);
+  };
   
 
   const handleSubmit = async (event) => {
@@ -36,7 +53,11 @@ function EditInvoice(props) {
           companyName,
           invoiceNumber,
           dueDate,
-          lineItems,
+          lineItems: lineItems.map(item => ({
+            product: item.product._id,
+            quantity: item.quantity,
+            _id: item._id
+          })),
         }),
       });
       if (response.ok) {
@@ -46,6 +67,7 @@ function EditInvoice(props) {
       console.log(error);
     }
   };
+  
 
   return (
     <div>
@@ -79,14 +101,29 @@ function EditInvoice(props) {
           />
         </div>
         <div>
-          <label htmlFor="lineItems">Line Items (JSON):</label>
-          <textarea
-            id="lineItems"
-            value={JSON.stringify(lineItems)}
-            onChange={e => setLineItems(JSON.parse(e.target.value))}
-          />
-        </div>
-        <button type="submit">Save</button>
+        <label>Line Items:</label>
+        {lineItems.map((item, index) => (
+          <div key={index}>
+            <label htmlFor={`product-${index}`}>Product:</label>
+            <input
+              type="text"
+              id={`product-${index}`}
+              value={item.product.productName}
+              onChange={(e) =>
+                handleLineItemChange(index, 'product', { ...item.product, productName: e.target.value })
+              }
+            />
+            <label htmlFor={`quantity-${index}`}>Quantity:</label>
+            <input
+              type="number"
+              id={`quantity-${index}`}
+              value={item.quantity}
+              onChange={(e) => handleLineItemChange(index, 'quantity', Number(e.target.value))}
+            />
+          </div>
+        ))}
+      </div>
+      <button type="submit">Save</button>
       </form>
     </div>
   );

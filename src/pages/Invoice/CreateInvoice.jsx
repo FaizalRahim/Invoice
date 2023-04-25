@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import validator from 'validator';
+import { useNavigate } from 'react-router-dom';
 
 function CreateInvoice(props) {
   const [companyName, setCompanyName] = useState('');
@@ -16,10 +17,12 @@ function CreateInvoice(props) {
   const [products, setProducts] = useState([]);
   const [unitPrice, setUnitPrice] = useState(0);
   const [productQuantity, setProductQuantity] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
+        
         const response = await axios.get('/api/clients');
         if (response.status === 200) {
           setClients(response.data);
@@ -104,7 +107,7 @@ function CreateInvoice(props) {
 
       if (response.status === 201) {
         const invoice = response.data;
-        props.onInvoiceCreated(invoice);
+        navigate('/invoices');
       } else {
         console.log('Failed to create invoice');
       }
@@ -162,89 +165,6 @@ function CreateInvoice(props) {
     }
   };
   
-//   return (
-//     <div>
-//       <h1>Create Invoice</h1>
-//       <form onSubmit={handleSubmit}>
-//         <div>
-//           <label htmlFor="companyName">Company Name:</label>
-//           <select id="companyName" value={companyName} onChange={handleCompanyNameChange}>
-//             <option value="">Select a client</option>
-//             {clients.map(client => (
-//               <option key={client._id} value={client._id}>{client.companyName}</option>
-//             ))}
-//           </select>
-//         </div>
-//         <div>
-//           <label htmlFor="companyAddress">Company Address:</label>
-//           <textarea id="companyAddress" value={companyAddress} readOnly />
-//         </div>
-//         <div>
-//           <label htmlFor="companyEmail">Company Email:</label>
-//           <textarea id="companyEmail" value={companyEmail} readOnly />
-//         </div>
-//         <div>
-//           <label htmlFor="invoiceNumber">Invoice Number:</label>
-//           <input type="number" id="invoiceNumber" value={invoiceNumber} onChange={(event) => setInvoiceNumber(event.target.value)} />
-//         </div>
-//         <div>
-//           <label htmlFor="invoiceDate">Invoice Date:</label>
-//           <input type="date" id="invoiceDate" value={invoiceDate} onChange={handleInvoiceDateChange} />
-//         </div>
-//         <div>
-//           <label htmlFor="paymentTerm">Payment Term:</label>
-//           <textarea id="paymentTerm" value={paymentTerm} readOnly />
-//         </div>
-//         <div>
-//           <label htmlFor="dueDate">Due Date:</label>
-//           <input type="date" id="dueDate" value={dueDate} onChange={(event) => setDueDate(event.target.value)} />
-//         </div>
-//         <div>
-          
-//           <div>
-//             <label htmlFor="productName">Product Name:</label>
-//             <select id="productSelect" value={productName} onChange={handleProductNameChange}>
-//               <option value="">Select a Product</option>
-//               {products.map(product => (
-//                 <option key={product._id} value={product.productName}>{product.productName}</option>
-//               ))}
-//             </select>
-//           </div>
-//           <div>
-//             <label htmlFor="unitPrice">unit Price $:</label>
-//             <textarea id="unitPrice" value={unitPrice} readOnly />
-//           </div>
-//           <div>
-//             <label htmlFor="productQuantity">Product Quantity:</label>
-//             <input type="number" id="productQuantity" value={productQuantity} onChange={(event) => setProductQuantity(event.target.value)} />
-//           </div>
-//           <button type="button" onClick={handleAddItem}>Add Item</button>
-//         </div>
-//         <label htmlFor="lineItems">Line Items:</label>
-//           <table>
-//             <thead>
-//               <tr>
-//               <th>Product Name</th>
-//               <th>Quantity</th>
-//               <th>Unit Price</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {lineItems.map((item, index) => (
-//                 <tr key={index}>
-//                   <td>{products.find(product => product._id === item.product)?.productName}</td>
-//                   <td>{item.quantity}</td>
-//                   <td>{item.unitPrice}</td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         <button type="submit">Create</button>
-//       </form>
-//     </div>
-//   );
-// }
-// export default CreateInvoice;
 
 return (
   <div className="container mx-auto p-4">

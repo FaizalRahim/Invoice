@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import validator from 'validator';
+import { useNavigate } from 'react-router-dom';
 
 function CreateClient(props) {
   const [companyName, setCompanyName] = useState('');
@@ -8,20 +9,27 @@ function CreateClient(props) {
   const [personInCharge, setPersonInCharge] = useState('');
   const [companyEmail, setCompanyEmail] = useState('');
   const [paymentTerm, setPaymentTerm] = useState('');
+  const [companyEmailError, setCompanyEmailError] = useState('');
+  const [paymentTermError, setPaymentTermError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Validate input fields
     if (!validator.isEmail(companyEmail)) {
-      console.log('Invalid email');
+      setCompanyEmailError('Invalid email');
       return;
-    }
-    if (!validator.isNumeric(paymentTerm)) {
-      console.log('Payment term must be a number');
-      return;
+    } else {
+      setCompanyEmailError('');
     }
 
+    if (!validator.isNumeric(paymentTerm)) {
+      setPaymentTermError('Payment term must be a number');
+      return;
+    } else {
+      setPaymentTermError('');
+    }
 
     // Send data to server
     try {
@@ -30,7 +38,7 @@ function CreateClient(props) {
         companyAddress,
         personInCharge,
         companyEmail,
-        paymentTerm
+        paymentTerm,
       }, {
         headers: {
           'Content-Type': 'application/json'
@@ -39,7 +47,7 @@ function CreateClient(props) {
   
       if (response.status === 201) {
         const client = response.data;
-        props.onClientCreated(client);
+        navigate(`/clients`);
       } else {
         console.log('Failed to create client');
       }
@@ -58,12 +66,7 @@ function CreateClient(props) {
         </div>
         <div>
           <label htmlFor="companyAddress">Company Address:</label>
-          <input
-            type="text"
-            id="companyAddress"
-            value={companyAddress}
-            onChange={(event) => setCompanyAddress(event.target.value)}
-          />
+          <input type="text" id="companyAddress" value={companyAddress} onChange={(event) => setCompanyAddress(event.target.value)} />
         </div>
         <div>
           <label htmlFor="personInCharge">Person in Charge:</label>
@@ -72,10 +75,12 @@ function CreateClient(props) {
         <div>
           <label htmlFor="companyEmail">Company Email:</label>
           <input type="email" id="companyEmail" value={companyEmail} onChange={(event) => setCompanyEmail(event.target.value)} />
+          {companyEmailError && <p className="error">{companyEmailError}</p>}
         </div>
         <div>
           <label htmlFor="paymentTerm">Payment Term (Days):</label>
           <input type="number" id="paymentTerm" value={paymentTerm} onChange={(event) => setPaymentTerm(event.target.value)} />
+          {paymentTermError && <p className="error">{paymentTermError}</p>}
         </div>
         <button type="submit">Create</button>
       </form>
@@ -84,3 +89,4 @@ function CreateClient(props) {
 }
 
 export default CreateClient;
+

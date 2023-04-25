@@ -53,9 +53,11 @@ const createInvoice = async (req, res) => {
       }
       res.json(invoice);
     } catch (error) {
+      console.error('Error in updateInvoice:', error);
       res.status(400).json({ message: error.message });
     }
   };
+  
   
   // Delete an invoice by id
   const deleteInvoice = async (req, res) => {
