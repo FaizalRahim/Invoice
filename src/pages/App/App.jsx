@@ -15,6 +15,7 @@ import CompanyDetails from '../CompanyDetails/CompanyDetails';
 import InvoiceListSales from '../Invoice/InvoiceListSales';
 import UserList from '../User/UserList'
 import EditUser from '../User/EditUser';
+import ProductListSales from '../Product/ProductListSales';
 
 
 function App() {
@@ -100,6 +101,17 @@ function App() {
       {isLoggedIn && role === 'Sales' && (
       <li>
         <a>
+          Product
+          <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
+        </a>
+        <ul className="p-2 bg-base-100">
+          <li><Link to="/productsSales">Product Catalogue</Link></li>
+        </ul>
+      </li>
+      )} 
+      {isLoggedIn && role === 'Sales' && (
+      <li>
+        <a>
           Invoice
           <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
         </a>
@@ -108,6 +120,7 @@ function App() {
         </ul>
       </li>
       )} 
+
       <li>
         {isLoggedIn 
           ? <button className="btn btn-outline btn-square" onClick={handleLogout}>Logout</button>
@@ -140,6 +153,7 @@ function App() {
       {isLoggedIn && role === 'Sales' && (
     <>
       <Route path="/invoicesSales" element={<InvoiceListSales />} />
+      <Route path="/productsSales" element={<ProductListSales />} />
     </>
   )}
 </Routes>
