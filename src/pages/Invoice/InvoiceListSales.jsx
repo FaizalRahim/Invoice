@@ -4,7 +4,7 @@ import axios from 'axios';
 import easyinvoice from 'easyinvoice';
 import { saveAs } from 'file-saver';
 
-function InvoiceList() {
+function InvoiceListSales() {
   const [invoices, setInvoices] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
   const navigateTo = useNavigate();
@@ -18,35 +18,6 @@ function InvoiceList() {
       .catch(error => console.log(error));
   }, []);
 
-  const handleDelete = async (id) => {
-    try {
-      const response = await axios.delete(`/api/invoices/${id}`, config);
-      if (response.status === 200) {
-        setInvoices(invoices.filter((invoice) => invoice._id !== id));
-      } else {
-        console.log('Failed to delete invoice');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleEdit = async (id) => {
-    try {
-      const invoice = await axios.get(`/api/invoices/${id}`, config);
-      const updatedInvoice = { ...invoice.data };
-      const response = await axios.put(`/api/invoices/${id}`, updatedInvoice, config);
-      if (response.status === 200) {
-        const updatedInvoice = response.data;
-        console.log(updatedInvoice);
-        navigateTo(`/Invoice/edit/${id}`);
-      } else {
-        console.log('Failed to update invoice');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const generatePdfBlob = async (data) => {
     
@@ -133,90 +104,6 @@ function InvoiceList() {
     }
   };
 
-  const handleSendEmail = async (id) => {
-    try {
-      const [invoiceResponse, companyResponse] = await Promise.all([
-        axios.get(`/api/invoices/${id}`, config),
-        axios.get('/api/company', config),
-      ]);
-  
-      const invoiceData = invoiceResponse.data;
-      const companyData = companyResponse.data[0];
-
-      const {
-      companyName: { companyName, companyAddress, companyEmail },
-      invoiceNumber,
-      dueDate,
-      lineItems,
-      invoiceDate,
-    } = invoiceData;
-
-      const {
-        userCompanyName,
-        userCompanyAddress,
-        companyBankAccount,
-      } = companyData;
-
-      const data = {
-        "documentTitle": "INVOICE",
-        "locale": "en",
-        "currency": "SGD",
-        "taxNotation": "GST",
-        "marginTop": 25,
-        "marginRight": 25,
-        "marginLeft": 25,
-        "marginBottom": 25,
-        "logo": "", // Add your logo URL here
-        "sender": {
-          "company": userCompanyName,
-          "address": userCompanyAddress,
-          
-        },
-        "translate": {
-          "number": "Invoice Number",
-          "vat" : "GST"
-        },
-        "client": {
-          "company": companyName, 
-          "address": companyAddress, 
-        },
-        "information": {
-          "number": invoiceNumber.toString(),
-          "date": new Date(invoiceDate).toLocaleDateString(),
-          "due-date": new Date(dueDate).toLocaleDateString(),
-        },
-        "products": lineItems.map(item => ({
-          "quantity": item.quantity,
-          "description": item.product.productName,
-          "tax-rate": 8, 
-          "price": item.product.unitPrice
-        })),
-      };
-
-  
-      // Generate the invoice PDF
-      const pdfBlob = await generatePdfBlob(data);
-      
-      // Send email with invoice PDF attachment
-      const formData = new FormData();
-      formData.append('message', `Please find attached invoice ${invoiceNumber}.`);
-      formData.append('invoiceNumber', invoiceNumber.toString());
-      formData.append('client', JSON.stringify(companyName));
-      formData.append('companyEmail', JSON.stringify(companyEmail));
-      formData.append('invoice', pdfBlob, `Invoice_${invoiceNumber}.pdf`);
-      
-      const emailResponse = await axios.post(`/api/email`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      setSuccessMessage(`Email sent successfully for invoice ${invoiceNumber}.`);
-      console.log(emailResponse.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   
 
 
@@ -248,17 +135,8 @@ function InvoiceList() {
           </div>
         </div>
         <div className="flex space-x-2">
-          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500 hover:bg-red-600" onClick={() => handleDelete(invoice._id)}>
-            Delete
-          </button>
-          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-green-500 hover:bg-green-600" onClick={() => handleEdit(invoice._id)}>
-            Edit
-          </button>
           <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-500 hover:bg-blue-600" onClick={() => handleGeneratePdf(invoice._id)}>
             Download PDF
-          </button>
-          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-purple-500 hover:bg-purple-600" onClick={() => handleSendEmail(invoice._id)}>
-            Send Email
           </button>
         </div>
       </li>
@@ -270,4 +148,4 @@ function InvoiceList() {
   );
 }
 
-export default InvoiceList;
+export default InvoiceListSales;

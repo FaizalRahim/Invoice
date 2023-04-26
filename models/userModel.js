@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
         minLength: 6,
         required: true,
     },
+    role: {
+        type: String,
+        required: true,
+    }
 });
 
 //Create a User model based on the schema

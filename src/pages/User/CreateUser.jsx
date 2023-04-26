@@ -7,12 +7,15 @@ const CreateUser = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [roleError, setRoleError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    console.log('Create user called');
     e.preventDefault();
 
     // Validate input values
@@ -37,13 +40,28 @@ const CreateUser = () => {
       setPasswordError('');
     }
 
+    if (!["Sales", "Admin"].includes(role)) {
+      setRoleError('Role must be either Sales or Admin');
+      return;
+    } else {
+      setRoleError('');
+    }
+
     // Send POST request to create new user
     try {
-      const res = await axios.post('/api/users', { name, email, password });
-      navigate('/invoices');
-      console.log(res.data);
+      const response = await axios.post('/api/users', {
+        name,
+        email,
+        password,
+        role,
+      });
+  
+      if (response.status === 201) {
+        console.log('User created:', response.data);
+        navigate('/Users'); 
+      }
     } catch (error) {
-      console.log(error);
+      console.error('Error creating user:', error);
     }
   };
 
@@ -61,6 +79,12 @@ const CreateUser = () => {
       <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
     </div>
+    <select className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" id="role" name="role" value={role} onChange={(e) => setRole(e.target.value)}>
+  <option value="" defaultValue>Select a role</option>
+  <option value="Sales" defaultValue={role === "Sales"}>Sales</option>
+  <option value="Admin" defaultValue={role === "Admin"}>Admin</option>
+</select>
+
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1" htmlFor="password">Password:</label>
       <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />

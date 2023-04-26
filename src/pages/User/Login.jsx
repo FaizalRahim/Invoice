@@ -6,6 +6,7 @@ const Login = ({ onLogin }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -14,18 +15,26 @@ const Login = ({ onLogin }) => {
         email,
         password,
       });
+  
       const { token } = response.data;
       localStorage.setItem('token', token);
-      // Call the onLogin prop function
-      onLogin();
-
-      // Redirect user to client list page
-      navigate('/createInvoice');
+      const userRole = response.data.role;
+      localStorage.setItem('role', userRole);
+  
+      onLogin(response.data);
+  
+      // Navigate user to the appropriate page based on their role
+      if (userRole === 'Sales') {
+        navigate('/invoicesSales');
+      } else {
+        navigate('/createInvoice');
+      }
     } catch (error) {
       console.error(error);
       // Show error message to user
     }
   };
+  
   
 
   return (
