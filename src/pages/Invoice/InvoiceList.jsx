@@ -71,7 +71,6 @@ function InvoiceList() {
       const invoiceData = invoiceResponse.data;
       const companyData = companyResponse.data[0];
 
-      // Extract necessary information from invoiceData
       const {
       companyName: { companyName, companyAddress, companyEmail },
       invoiceNumber,

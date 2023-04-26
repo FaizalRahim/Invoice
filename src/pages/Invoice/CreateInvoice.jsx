@@ -17,6 +17,8 @@ function CreateInvoice(props) {
   const [products, setProducts] = useState([]);
   const [unitPrice, setUnitPrice] = useState(0);
   const [productQuantity, setProductQuantity] = useState(0);
+  const [productQuantityError, setproductQuantityError] = useState('');
+  const [invoiceNumberError, setinvoiceNumberError] = useState('');
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const config = { headers: { Authorization: `Bearer ${token}`},};
@@ -62,30 +64,14 @@ function CreateInvoice(props) {
     event.preventDefault();
 
     // Validate input values
-    if (!validator.isEmail(companyEmail)) {
-      alert('Invalid company email');
-      return;
-    }
 
     if (!validator.isNumeric(invoiceNumber)) {
-      alert('Invalid invoice number');
+      setinvoiceNumberError('Invalid invoice number');
       return;
+    } else {
+      setinvoiceNumberError('');
     }
 
-    if (!validator.isDate(invoiceDate)) {
-      alert('Invalid invoice date');
-      return;
-    }
-
-    if (!validator.isNumeric(paymentTerm.toString())) {
-      alert('Invalid payment term');
-      return;
-    }
-
-    if (!validator.isDate(dueDate)) {
-      alert('Invalid due date');
-      return;
-    }
 
     const payload = {
       companyName,
@@ -120,14 +106,24 @@ function CreateInvoice(props) {
   };
 
   const handleAddItem = () => {
+    
+    if (!validator.isInt(productQuantity.toString(), { min: 1 })) {
+      setproductQuantityError('Product quantity must not be 0');
+      return; 
+    } else {
+      setproductQuantityError('');
+    }
+    
     const selectedProduct = products.find(product => product.productName === productName);
     if (selectedProduct) {
       setLineItems([...lineItems, { product: selectedProduct._id, quantity: productQuantity, unitPrice }]);
-      setUnitPrice(selectedProduct.unitPrice);
+      setUnitPrice(0);
       setProductName('');
       setProductQuantity(0);
     }
   };
+  
+  
   
   const handleCompanyNameChange = (event) => {
     const selectedCompanyName = event.target.value;
@@ -144,17 +140,29 @@ function CreateInvoice(props) {
     }
   };
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   const handleInvoiceDateChange = (event) => {
     const selectedInvoiceDate = event.target.value;
+    const today = new Date().toISOString().substr(0, 10);
+  
+    if (selectedInvoiceDate < today) {
+      alert('Invoice date cannot be in the past');
+      return;
+    }
+  
     const dueDate = new Date(new Date(selectedInvoiceDate).setDate(new Date(selectedInvoiceDate).getDate() + paymentTerm)).toISOString().substr(0, 10);
     setInvoiceDate(selectedInvoiceDate);
     setDueDate(dueDate);
   };
+  
 
-  useEffect(() => {
-    const today = new Date().toISOString().substr(0, 10);
-    setDueDate(today);
-  }, []);
 
   const handleProductNameChange = (event) => {
     const selectedProductName = event.target.value;
@@ -193,6 +201,7 @@ return (
       <div className="flex flex-wrap">
         <label htmlFor="invoiceNumber" className="w-1/3">Invoice Number:</label>
         <input type="number" id="invoiceNumber" value={invoiceNumber} onChange={(event) => setInvoiceNumber(event.target.value)} className="w-2/3 border p-1" />
+        {invoiceNumberError && <p className="text-red-500 text-sm mt-1">{invoiceNumberError}</p>}
       </div>
       <div className="flex flex-wrap">
         <label htmlFor="invoiceDate" className="w-1/3">Invoice Date:</label>
@@ -204,7 +213,8 @@ return (
       </div>
       <div className="flex flex-wrap">
         <label htmlFor="dueDate" className="w-1/3">Due Date:</label>
-        <input type="date" id="dueDate" value={dueDate} onChange={(event) => setDueDate(event.target.value)} className="w-2/3 border p-1" />
+        <textarea id="dueDate" value={formatDate(dueDate)} readOnly className="w-2/3 border p-1" />
+
       </div>
       <div>
         <div className="flex flex-wrap">
@@ -223,6 +233,7 @@ return (
       <div className="flex flex-wrap">
         <label htmlFor="productQuantity" className="w-1/3">Product Quantity:</label>
         <input type="number" id="productQuantity" value={productQuantity} onChange={(event) => setProductQuantity(event.target.value)} className="w-2/3 border p-1" />
+        {productQuantityError && <p className="text-red-500 text-sm mt-1">{productQuantityError}</p>}
       </div>
       <button type="button" onClick={handleAddItem} className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Add Item</button>
     </div>
