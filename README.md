@@ -1,7 +1,6 @@
 # Invoice Management Application
 
-Invoice is convenient way to manage and send invoices with PDF attachments, 
-and is ideal for small business owners or freelancers who need to keep track of their invoicing.
+Invoice Management Application is convenient way to manage and send invoices with PDF attachments,and is ideal for small business owners or freelancers who need to keep track of their invoicing.
 
 This is a web application for managing invoices, built using the MERN stack (MongoDB, Express, React, and Node.js).
 
