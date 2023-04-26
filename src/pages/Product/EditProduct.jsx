@@ -55,31 +55,45 @@ function EditProduct(props) {
   };
 
   return (
+    <div className="px-4 py-8 max-w-xl mx-auto space-y-4">
+  <h1 className="text-2xl font-bold">Edit Product</h1>
+  <form onSubmit={handleSubmit} className="space-y-4">
     <div>
-      <h1>Edit Product</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="productName">Product Name:</label>
-          <input
-            type="text"
-            id="productName"
-            value={productName}
-            onChange={e => setProductName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="unitPrice">Unit Price:</label>
-          <input
-            type="number"
-            id="unitPrice"
-            value={unitPrice}
-            onChange={e => setUnitPrice(e.target.value)}
-          />
-          {unitPriceError && <p className="error">{unitPriceError}</p>}
-        </div>
-        <button type="submit">Save</button>
-      </form>
+      <label htmlFor="productName" className="text-lg font-medium">
+        Product Name:
+      </label>
+      <input
+        type="text"
+        id="productName"
+        value={productName}
+        onChange={e => setProductName(e.target.value)}
+        className="w-full py-2 px-3 mt-1 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50"
+      />
     </div>
+    <div>
+      <label htmlFor="unitPrice" className="text-lg font-medium">
+        Unit Price:
+      </label>
+      <input
+        type="number"
+        id="unitPrice"
+        value={unitPrice}
+        onChange={e => setUnitPrice(e.target.value)}
+        className={`${unitPriceError ? 'border-red-500' : ''} w-full py-2 px-3 mt-1 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50`}
+      />
+      {unitPriceError && (
+        <p className="text-red-500 text-sm mt-1">{unitPriceError}</p>
+      )}
+    </div>
+    <button
+      type="submit"
+      className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50"
+    >
+      Save
+    </button>
+  </form>
+</div>
+
   );
 }
 

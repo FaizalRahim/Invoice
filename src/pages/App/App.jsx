@@ -14,6 +14,7 @@ import Login from '../User/Login';
 import CompanyDetails from '../CompanyDetails/CompanyDetails';
 
 
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
@@ -29,68 +30,71 @@ function App() {
   return (
     <div className="p-4">
   <Router>
-    <nav className="bg-white shadow-md">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between py-4">
-          <div className="flex space-x-4 flex-grow">
-            {isLoggedIn && (
-              <>
-                <button className="btn btn-outline btn-square flex-grow">
-                  <Link to="/clients" className="text-gray-700 hover:text-gray-900">
-                    Client List
-                  </Link>
-                </button>
-                <button className="btn btn-outline btn-square flex-grow">
-                  <Link to="/createClient" className="text-gray-700 hover:text-gray-900">
-                    Create Client
-                  </Link>
-                </button>
-                <button className="btn btn-outline btn-square flex-grow">
-                  <Link to="/products" className="text-gray-700 hover:text-gray-900">
-                    Product List
-                  </Link>
-                </button>
-                <button className="btn btn-outline btn-square flex-grow">
-                  <Link to="/createProduct" className="text-gray-700 hover:text-gray-900">
-                    Create Product
-                  </Link>
-                </button>
-                <button className="btn btn-outline btn-square flex-grow">
-                  <Link to="/invoices" className="text-gray-700 hover:text-gray-900">
-                    Invoice List
-                  </Link>
-                </button>
-                <button className="btn btn-outline btn-square flex-grow">
-                  <Link to="/createInvoice" className="text-gray-700 hover:text-gray-900">
-                    Create Invoice
-                  </Link>
-                </button>
-                <button className="btn btn-outline btn-square flex-grow">
-                  <Link to="/createUser" className="text-gray-700 hover:text-gray-900">
-                    Create User
-                  </Link>
-                </button>
-                <button className="btn btn-outline btn-square flex-grow">
-                  <Link to="/company" className="text-gray-700 hover:text-gray-900">
-                    Company Details
-                  </Link>
-                </button>
-              </>
-            )}
-          </div>
-          {isLoggedIn && (
-            
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-            >
-              Logout
-            </button>
-          )}
-        </div>
-      </div>
-    </nav>
+  <div className="navbar bg-base-100">
+  <div className="flex-1">
+    <a className="btn btn-ghost normal-case text-xl">Easy Invoices</a>
+  </div>
+  <div className="flex-none">
+    <ul className="menu menu-horizontal px-1">
+    {isLoggedIn && (
+      <li>
+        <a>
+          Client
+          <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
+        </a>
+        <ul className="p-2 bg-base-100">
+          <li><Link to="/clients">Client List</Link></li>
+          <li><Link to="/createClient">Create Client</Link></li>
+        </ul>
+      </li>
+    )}
+      {isLoggedIn && (
+      <li>
+        <a>
+          Product
+          <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
+        </a>
+        <ul className="p-2 bg-base-100">
+          <li><Link to="/products">Product List</Link></li>
+          <li><Link to="/createProduct">Create Product</Link></li>
+        </ul>
+      </li>
+      )}
+      {isLoggedIn && (
+      <li>
+        <a>
+          Invoice
+          <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
+        </a>
+        <ul className="p-2 bg-base-100">
+          <li><Link to="/invoices">Invoice List</Link></li>
+          <li><Link to="/createInvoice">Create Invoice</Link></li>
+        </ul>
+      </li>
+      )} 
+
+      {/* <li>
+        <a>
+          Company
+          <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
+        </a>
+        <ul className="p-2 bg-base-100">
+        <li><Link to="/createUser">Create User</Link></li>
+          <li><Link to="/company">Company Details</Link></li>
+        </ul>
+      </li> */}
+      <li>
+        {isLoggedIn 
+          ? <button className="btn btn-outline btn-square" onClick={handleLogout}>Logout</button>
+          : <Link to="/">Login</Link>
+        }
+      </li>
+    </ul>
+  </div>
+</div>
+
     <Routes>
+    <Route path="/createUser" element={<CreateUser />} />
       <Route path="/" element={<Login onLogin={handleLogin} />} />
       {isLoggedIn && (
         <>
@@ -103,7 +107,7 @@ function App() {
           <Route path="/invoices" element={<InvoiceList />} />
           <Route path="/createInvoice" element={<CreateInvoice />} />
           <Route path="/Invoice/edit/:invoiceId" element={<EditInvoice />} />
-          <Route path="/createUser" element={<CreateUser />} />
+          
           <Route path="/company" element={<CompanyDetails />} />
         </>
       )}

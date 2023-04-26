@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 router.post('/', userController.createUser);
 
 // Delete a user by id
-router.delete('/:id', auth , userController.deleteUser);
+router.delete('/:id', userController.deleteUser);
 
 // Login user
 router.post('/login', userController.loginUser);

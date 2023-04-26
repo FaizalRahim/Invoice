@@ -223,26 +223,49 @@ function InvoiceList() {
 
   
   return (
-    <div>
+    <div className="p-4 bg-white rounded-md shadow-md">
   <h1 className="text-2xl font-bold mb-4">Invoices</h1>
   {successMessage && <p className="mb-4 text-green-500">{successMessage}</p>}
   <ul className="divide-y divide-gray-200">
-    {invoices.map(invoice => (
+    {invoices.map((invoice) => (
       <li key={invoice._id} className="py-4 flex items-center justify-between">
-        <div className="flex flex-col">
-          <strong className="text-lg">{invoice.invoiceNumber}</strong>
-          <span className="text-gray-500 text-sm">{invoice.date}</span>
+        <div className="flex flex-col space-y-2">
+          <div className="flex justify-between">
+            <h2 className="font-bold text-lg">Invoice Number:</h2>
+            <span className="text-lg">{invoice.invoiceNumber}</span>
+          </div>
+          <div className="flex justify-between">
+            <h2 className="font-bold text-lg">Client Name:</h2>
+            <span className="text-lg">{invoice.companyName.companyName}</span>
+          </div>
+          <div className="flex justify-between">
+            <h2 className="font-bold text-lg">Invoice Date:</h2>
+            <span className="text-lg">{new Date(invoice.invoiceDate).toLocaleDateString()}</span>
+          </div>
+          <div className="flex justify-between">
+            <h2 className="font-bold text-lg">Due Date:</h2>
+            <span className="text-lg">{new Date(invoice.dueDate).toLocaleDateString()}</span>
+          </div>
         </div>
         <div className="flex space-x-2">
-          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500 hover:bg-red-600" onClick={() => handleDelete(invoice._id)}>Delete</button>
-          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-green-500 hover:bg-green-600" onClick={() => handleEdit(invoice._id)}>Edit</button>
-          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-500 hover:bg-blue-600" onClick={() => handleGeneratePdf(invoice._id)}>Download PDF</button>
-          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-purple-500 hover:bg-purple-600" onClick={() => handleSendEmail(invoice._id)}>Send Email</button>
+          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500 hover:bg-red-600" onClick={() => handleDelete(invoice._id)}>
+            Delete
+          </button>
+          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-green-500 hover:bg-green-600" onClick={() => handleEdit(invoice._id)}>
+            Edit
+          </button>
+          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-500 hover:bg-blue-600" onClick={() => handleGeneratePdf(invoice._id)}>
+            Download PDF
+          </button>
+          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-purple-500 hover:bg-purple-600" onClick={() => handleSendEmail(invoice._id)}>
+            Send Email
+          </button>
         </div>
       </li>
     ))}
   </ul>
 </div>
+
 
   );
 }
