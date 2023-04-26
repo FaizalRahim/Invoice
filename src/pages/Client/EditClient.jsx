@@ -61,57 +61,73 @@ function EditClient(props) {
   };
 
   return (
-    <div>
-      <h1>Edit Client</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="companyName">Company Name:</label>
-          <input
-            type="text"
-            id="companyName"
-            value={companyName}
-            onChange={e => setCompanyName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="companyAddress">Company Address:</label>
-          <input
-            type="text"
-            id="companyAddress"
-            value={companyAddress}
-            onChange={e => setCompanyAddress(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="personInCharge">Person in Charge:</label>
-          <input
-            type="text"
-            id="personInCharge"
-            value={personInCharge}
-            onChange={e => setPersonInCharge(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="companyEmail">Company Email:</label>
-          <input
-            type="email"
-            id="companyEmail"
-            value={companyEmail}
-            onChange={e => setCompanyEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="paymentTerm">Payment Term (Days):</label>
-          <input
-            type="number"
-            id="paymentTerm"
-            value={paymentTerm}
-            onChange={e => setPaymentTerm(e.target.value)}
-          />
-        </div>
-        <button type="submit">Save</button>
-      </form>
-    </div>
+    <div className="bg-gray-100 py-8">
+  <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 className="text-2xl font-semibold text-gray-900 mb-4">Edit Client</h1>
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-y-6">
+      <div>
+        <label htmlFor="companyName" className="block text-sm font-medium text-gray-700">Company Name:</label>
+        <input
+          type="text"
+          id="companyName"
+          value={companyName}
+          onChange={e => setCompanyName(e.target.value)}
+          className="mt-1 p-2 border rounded-md w-full"
+        />
+      </div>
+      <div>
+        <label htmlFor="companyAddress" className="block text-sm font-medium text-gray-700">Company Address:</label>
+        <input
+          type="text"
+          id="companyAddress"
+          value={companyAddress}
+          onChange={e => setCompanyAddress(e.target.value)}
+          className="mt-1 p-2 border rounded-md w-full"
+        />
+      </div>
+      <div>
+        <label htmlFor="personInCharge" className="block text-sm font-medium text-gray-700">Person in Charge:</label>
+        <input
+          type="text"
+          id="personInCharge"
+          value={personInCharge}
+          onChange={e => setPersonInCharge(e.target.value)}
+          className="mt-1 p-2 border rounded-md w-full"
+        />
+      </div>
+      <div>
+        <label htmlFor="companyEmail" className="block text-sm font-medium text-gray-700">Company Email:</label>
+        <input
+          type="email"
+          id="companyEmail"
+          value={companyEmail}
+          onChange={e => setCompanyEmail(e.target.value)}
+          className="mt-1 p-2 border rounded-md w-full"
+        />
+      </div>
+      <div>
+        <label htmlFor="paymentTerm" className="block text-sm font-medium text-gray-700">Payment Term (Days):</label>
+        <input
+          type="number"
+          id="paymentTerm"
+          value={paymentTerm}
+          onChange={e => setPaymentTerm(e.target.value)}
+          className="mt-1 p-2 border rounded-md w-full"
+        />
+      </div>
+      <div className="pt-5">
+        <button
+          type="submit"
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
   );
 }
 

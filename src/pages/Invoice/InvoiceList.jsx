@@ -208,6 +208,7 @@ function InvoiceList() {
       
       const emailResponse = await axios.post(`/api/email`, formData, {
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
         }
       });

@@ -58,41 +58,53 @@ function EditProduct(props) {
     <div className="px-4 py-8 max-w-xl mx-auto space-y-4">
   <h1 className="text-2xl font-bold">Edit Product</h1>
   <form onSubmit={handleSubmit} className="space-y-4">
-    <div>
+    <div className="space-y-2">
       <label htmlFor="productName" className="text-lg font-medium">
         Product Name:
       </label>
-      <input
-        type="text"
-        id="productName"
-        value={productName}
-        onChange={e => setProductName(e.target.value)}
-        className="w-full py-2 px-3 mt-1 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50"
-      />
+      <div className="relative rounded-md shadow-sm">
+        <input
+          type="text"
+          id="productName"
+          value={productName}
+          onChange={e => setProductName(e.target.value)}
+          className="block w-full pr-10 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
     </div>
-    <div>
+    <div className="space-y-2">
       <label htmlFor="unitPrice" className="text-lg font-medium">
         Unit Price:
       </label>
-      <input
-        type="number"
-        id="unitPrice"
-        value={unitPrice}
-        onChange={e => setUnitPrice(e.target.value)}
-        className={`${unitPriceError ? 'border-red-500' : ''} w-full py-2 px-3 mt-1 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50`}
-      />
+      <div className="relative rounded-md shadow-sm">
+        <input
+          type="number"
+          id="unitPrice"
+          value={unitPrice}
+          onChange={e => setUnitPrice(e.target.value)}
+          className={`${unitPriceError ? 'border-red-500' : ''} block w-full pr-10 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+        />
+        {unitPriceError && (
+          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12zm1-9a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
+            </svg>
+          </div>
+        )}
+      </div>
       {unitPriceError && (
-        <p className="text-red-500 text-sm mt-1">{unitPriceError}</p>
+        <p className="mt-2 text-sm text-red-600">{unitPriceError}</p>
       )}
     </div>
     <button
       type="submit"
-      className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50"
+      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     >
       Save
     </button>
   </form>
 </div>
+
 
   );
 }
