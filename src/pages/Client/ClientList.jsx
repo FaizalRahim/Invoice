@@ -5,9 +5,11 @@ import axios from 'axios';
 function ClientList() {
   const [clients, setClients] = useState([]);
   const navigateTo = useNavigate();
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`},};
 
   useEffect(() => {
-    fetch('/api/clients')
+    fetch('/api/clients', config)
       .then(response => response.json())
       .then(data => setClients(data))
       .catch(error => console.log(error));
@@ -15,7 +17,7 @@ function ClientList() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`/api/clients/${id}`);
+      const response = await axios.delete(`/api/clients/${id}`, config);
       if (response.status === 200) {
         setClients(clients.filter((client) => client._id !== id));
       } else {
@@ -28,9 +30,9 @@ function ClientList() {
 
   const handleEdit = async (id) => {
     try {
-      const client = await axios.get(`/api/clients/${id}`);
+      const client = await axios.get(`/api/clients/${id}`, config);
       const updatedClient = { ...client.data };
-      const response = await axios.put(`/api/clients/${id}`, updatedClient);
+      const response = await axios.put(`/api/clients/${id}`, updatedClient, config);
       if (response.status === 200) {
         const updatedClient = response.data;
         console.log(updatedClient);

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const CompanyDetails = () => {
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`}};
+
   const [formValues, setFormValues] = useState({
     UserCompanyName: '',
     userCompanyAddress: '',
@@ -19,7 +22,7 @@ const CompanyDetails = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/company', formValues);
+      const response = await axios.post('/api/company', formValues, config);
       console.log(response.data);
     } catch (err) {
       console.log(err);

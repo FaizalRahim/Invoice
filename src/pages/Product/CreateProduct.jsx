@@ -9,6 +9,8 @@ function CreateProduct(props) {
   const [productNameError, setProductNameError] = useState('');
   const [unitPriceError, setUnitPriceError] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`},'Content-Type': 'application/json'};
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,11 +35,7 @@ function CreateProduct(props) {
       const response = await axios.post(`/api/products`, {
         productName,
         unitPrice
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      }, config);
   
       if (response.status === 201) {
         const product = response.data;

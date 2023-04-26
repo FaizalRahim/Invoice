@@ -4,18 +4,18 @@ const productController = require('../controllers/productController');
 const auth = require('../middleware/auth');
 
 // Create a new product
-router.post('/', productController.createProduct);
+router.post('/', auth , productController.createProduct);
 
 // Get all products
-router.get('/', productController.getAllProducts);
+router.get('/', auth , productController.getAllProducts);
 
 // Get a single product by id
-router.get('/:id', productController.getProductById);
+router.get('/:id', auth , productController.getProductById);
 
 // Update a product by id
-router.put('/:id', productController.updateProduct);
+router.put('/:id', auth , productController.updateProduct);
 
 // Delete a product by id
-router.delete('/:id', productController.deleteProduct);
+router.delete('/:id', auth , productController.deleteProduct);
 
 module.exports = router;

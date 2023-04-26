@@ -18,12 +18,14 @@ function CreateInvoice(props) {
   const [unitPrice, setUnitPrice] = useState(0);
   const [productQuantity, setProductQuantity] = useState(0);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`},};
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
         
-        const response = await axios.get('/api/clients');
+        const response = await axios.get('/api/clients', config);
         if (response.status === 200) {
           setClients(response.data);
         } else {
@@ -40,7 +42,7 @@ function CreateInvoice(props) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('/api/products');
+        const response = await axios.get('/api/products', config);
         if (response.status === 200) {
           setProducts(response.data);
         } else {
@@ -101,6 +103,7 @@ function CreateInvoice(props) {
   try {
     const response = await axios.post(`/api/invoices`, payload, {
       headers: {
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     });

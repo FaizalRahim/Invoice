@@ -38,8 +38,19 @@ const CreateUser = () => {
     }
 
     try {
-      const res = await axios.post('/api/users', { name, email, password });
-      navigate('api/invoices');
+      const token = localStorage.getItem('token'); 
+  
+      if (!token) {
+        console.log('Token missing. Redirecting to login page.');
+        navigate('/'); 
+        return;
+      }
+  
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }, 
+      };
+      const res = await axios.post('/api/users', { name, email, password }, config);
+      navigate('/invoices');
       console.log(res.data);
     } catch (error) {
       console.log(error);

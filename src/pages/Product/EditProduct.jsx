@@ -9,9 +9,11 @@ function EditProduct(props) {
   const [unitPrice, setUnitPrice] = useState('');
   const [unitPriceError, setUnitPriceError] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`},};
 
   useEffect(() => {
-    fetch(`/api/products/${productId}`)
+    fetch(`/api/products/${productId}`, config)
       .then(response => response.json())
       .then(data => {
         setProduct(data);
@@ -25,7 +27,7 @@ function EditProduct(props) {
     event.preventDefault();
 
     // Validate input values
-    if (!validator.isNumeric(unitPrice)) {
+    if (!validator.isNumeric(unitPrice.toString())) {
       setUnitPriceError('Invalid unit price');
       return;
     } else {
@@ -35,7 +37,8 @@ function EditProduct(props) {
     try {
       const response = await fetch(`/api/products/${product._id}`, {
         method: 'PUT',
-        headers: {
+        headers: { 
+           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({

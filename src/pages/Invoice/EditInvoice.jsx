@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import mongoose from 'mongoose';
 
 function EditInvoice(props) {
   const { invoiceId } = useParams();
@@ -8,10 +9,13 @@ function EditInvoice(props) {
   const [invoiceNumber, setInvoiceNumber] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [lineItems, setLineItems] = useState([]);
+  const [loading, setLoading] = useState(true); // add loading state
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`},};
 
   useEffect(() => {
-    fetch(`/api/invoices/${invoiceId}`)
+    fetch(`/api/invoices/${invoiceId}`, config)
       .then(response => response.json())
       .then(data => {
         setInvoice(data);
@@ -29,6 +33,7 @@ function EditInvoice(props) {
           quantity: item.quantity || 0,
           _id: item._id || ''
         })));
+        setLoading(false); // update loading state
       })
       .catch(error => console.log(error));
   }, [invoiceId]);
@@ -43,14 +48,16 @@ function EditInvoice(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!invoice._id) return; 
     try {
       const response = await fetch(`/api/invoices/${invoice._id}`, {
         method: 'PUT',
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          companyName,
+          companyName:  companyName.companyName ,
           invoiceNumber,
           dueDate,
           lineItems: lineItems.map(item => ({
@@ -61,12 +68,16 @@ function EditInvoice(props) {
         }),
       });
       if (response.ok) {
+        const updatedInvoice = await response.json();
+        setInvoice(updatedInvoice);
         navigate(`/invoices`);
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  if (loading) return <div>Loading...</div>;
   
 
   return (

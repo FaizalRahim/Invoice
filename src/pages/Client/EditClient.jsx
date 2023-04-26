@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate  } from 'react-router-dom';
+import validator from 'validator';
+
 
 function EditClient(props) {
   const { clientId } = useParams();
@@ -10,9 +12,11 @@ function EditClient(props) {
   const [companyEmail, setCompanyEmail] = useState('');
   const [paymentTerm, setPaymentTerm] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`},};
 
   useEffect(() => {
-    fetch(`/api/clients/${clientId}`)
+    fetch(`/api/clients/${clientId}`, config)
       .then(response => response.json())
       .then(data => {
         setClient(data);
@@ -37,6 +41,7 @@ function EditClient(props) {
       const response = await fetch(`/api/clients/${client._id}`, {
         method: 'PUT',
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({

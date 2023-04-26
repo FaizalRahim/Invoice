@@ -8,9 +8,11 @@ function InvoiceList() {
   const [invoices, setInvoices] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
   const navigateTo = useNavigate();
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`},};
 
   useEffect(() => {
-    fetch('/api/invoices')
+    fetch('/api/invoices', config)
       .then(response => response.json())
       .then(data => setInvoices(data))
       .catch(error => console.log(error));
@@ -18,7 +20,7 @@ function InvoiceList() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`/api/invoices/${id}`);
+      const response = await axios.delete(`/api/invoices/${id}`, config);
       if (response.status === 200) {
         setProducts(invoices.filter((invoice) => invoice._id !== id));
       } else {
@@ -31,9 +33,9 @@ function InvoiceList() {
 
   const handleEdit = async (id) => {
     try {
-      const invoice = await axios.get(`/api/invoices/${id}`);
+      const invoice = await axios.get(`/api/invoices/${id}`, config);
       const updatedInvoice = { ...invoice.data };
-      const response = await axios.put(`/api/invoices/${id}`, updatedInvoice);
+      const response = await axios.put(`/api/invoices/${id}`, updatedInvoice, config);
       if (response.status === 200) {
         const updatedInvoice = response.data;
         console.log(updatedInvoice);
@@ -62,8 +64,8 @@ function InvoiceList() {
   const handleGeneratePdf = async (id) => {
     try {
       const [invoiceResponse, companyResponse] = await Promise.all([
-        axios.get(`/api/invoices/${id}`),
-        axios.get('/api/company'),
+        axios.get(`/api/invoices/${id}`, config),
+        axios.get('/api/company', config),
       ]);
   
       const invoiceData = invoiceResponse.data;
@@ -135,8 +137,8 @@ function InvoiceList() {
   const handleSendEmail = async (id) => {
     try {
       const [invoiceResponse, companyResponse] = await Promise.all([
-        axios.get(`/api/invoices/${id}`),
-        axios.get('/api/company'),
+        axios.get(`/api/invoices/${id}`, config),
+        axios.get('/api/company', config),
       ]);
   
       const invoiceData = invoiceResponse.data;

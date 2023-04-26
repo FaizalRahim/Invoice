@@ -12,6 +12,9 @@ function CreateClient(props) {
   const [companyEmailError, setCompanyEmailError] = useState('');
   const [paymentTermError, setPaymentTermError] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`},
+  'Content-Type': 'application/json'};
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,11 +42,7 @@ function CreateClient(props) {
         personInCharge,
         companyEmail,
         paymentTerm,
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      }, config);
   
       if (response.status === 201) {
         const client = response.data;

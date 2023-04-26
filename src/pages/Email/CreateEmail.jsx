@@ -8,10 +8,12 @@ function EmailForm(props) {
   const [invoices, setInvoices] = useState([]);
   const [selectedInvoice, setSelectedInvoice] = useState('');
   const [invoiceDetails, setInvoiceDetails] = useState(null);
+  const token = localStorage.getItem('token');
+  const config = { headers: { Authorization: `Bearer ${token}`},};
 
   useEffect(() => {
     // Fetch invoices from API
-    fetch('/api/invoices')
+    fetch('/api/invoices', config)
       .then((response) => response.json())
       .then((data) => {
         // Set invoices state with received data
@@ -22,7 +24,7 @@ function EmailForm(props) {
 
   useEffect(() => {
     if (selectedInvoice) {
-      fetch(`/api/invoices/${selectedInvoice}`)
+      fetch(`/api/invoices/${selectedInvoice}`, config)
         .then((response) => response.json())
         .then((data) => {
           setInvoiceDetails(data);
@@ -43,7 +45,7 @@ function EmailForm(props) {
     }
 
     try {
-      const response = await fetch('/api/email/', {
+      const response = await fetch('/api/email/', config, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
