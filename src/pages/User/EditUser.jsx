@@ -45,6 +45,11 @@ function EditUser(props) {
           role,
         }),
       });
+
+      // Log the response status and data
+    console.log('Response status:', response.status);
+    console.log('Response data:', await response.json());
+
       if (response.ok) {
         navigate(`/users`);
       }

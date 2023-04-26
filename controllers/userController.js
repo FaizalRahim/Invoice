@@ -102,6 +102,7 @@ const editUser = async (req, res) => {
     // Update user data
     user.name = name || user.name;
     user.email = email || user.email;
+    user.role = role || user.role;
 
     // Update password if provided
     if (password) {
