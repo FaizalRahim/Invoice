@@ -28,71 +28,88 @@ function App() {
 
   return (
     <div className="p-4">
-      <Router>
-        <nav className="bg-white shadow-md">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between py-4">
-              <div className="flex space-x-4">
-                {isLoggedIn && (
-                  <>
-                    <Link to="/clients" className="text-gray-700 hover:text-gray-900">
-                      Client List
-                    </Link>
-                    <Link to="/createClient" className="text-gray-700 hover:text-gray-900">
-                      Create Client
-                    </Link>
-                    <Link to="/products" className="text-gray-700 hover:text-gray-900">
-                      Product List
-                    </Link>
-                    <Link to="/createProduct" className="text-gray-700 hover:text-gray-900">
-                      Create Product
-                    </Link>
-                    <Link to="/invoices" className="text-gray-700 hover:text-gray-900">
-                      Invoice List
-                    </Link>
-                    <Link to="/createInvoice" className="text-gray-700 hover:text-gray-900">
-                      Create Invoice
-                    </Link>
-                    <Link to="/createUser" className="text-gray-700 hover:text-gray-900">
-                      Create User
-                    </Link>
-                    <Link to="/company" className="text-gray-700 hover:text-gray-900">
-                      Company Details
-                    </Link>
-                  </>
-                )}
-              </div>
-              {isLoggedIn && (
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-                >
-                  Logout
+  <Router>
+    <nav className="bg-white shadow-md">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between py-4">
+          <div className="flex space-x-4 flex-grow">
+            {isLoggedIn && (
+              <>
+                <button className="btn btn-outline btn-square flex-grow">
+                  <Link to="/clients" className="text-gray-700 hover:text-gray-900">
+                    Client List
+                  </Link>
                 </button>
-              )}
-            </div>
+                <button className="btn btn-outline btn-square flex-grow">
+                  <Link to="/createClient" className="text-gray-700 hover:text-gray-900">
+                    Create Client
+                  </Link>
+                </button>
+                <button className="btn btn-outline btn-square flex-grow">
+                  <Link to="/products" className="text-gray-700 hover:text-gray-900">
+                    Product List
+                  </Link>
+                </button>
+                <button className="btn btn-outline btn-square flex-grow">
+                  <Link to="/createProduct" className="text-gray-700 hover:text-gray-900">
+                    Create Product
+                  </Link>
+                </button>
+                <button className="btn btn-outline btn-square flex-grow">
+                  <Link to="/invoices" className="text-gray-700 hover:text-gray-900">
+                    Invoice List
+                  </Link>
+                </button>
+                <button className="btn btn-outline btn-square flex-grow">
+                  <Link to="/createInvoice" className="text-gray-700 hover:text-gray-900">
+                    Create Invoice
+                  </Link>
+                </button>
+                <button className="btn btn-outline btn-square flex-grow">
+                  <Link to="/createUser" className="text-gray-700 hover:text-gray-900">
+                    Create User
+                  </Link>
+                </button>
+                <button className="btn btn-outline btn-square flex-grow">
+                  <Link to="/company" className="text-gray-700 hover:text-gray-900">
+                    Company Details
+                  </Link>
+                </button>
+              </>
+            )}
           </div>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Login onLogin={handleLogin} />} />
           {isLoggedIn && (
-            <>
-              <Route path="/clients" element={<ClientList />} />
-              <Route path="/createClient" element={<CreateClient />} />
-              <Route path="/Client/edit/:clientId" element={<EditClient />} />
-              <Route path="/products" element={<ProductList />} />
-              <Route path="/createProduct" element={<CreateProduct />} />
-              <Route path="/Product/edit/:productId" element={<EditProduct />} />
-              <Route path="/invoices" element={<InvoiceList />} />
-              <Route path="/createInvoice" element={<CreateInvoice />} />
-              <Route path="/Invoice/edit/:invoiceId" element={<EditInvoice />} />
-              <Route path="/createUser" element={<CreateUser />} />
-              <Route path="/company" element={<CompanyDetails />} />
-            </>
+            
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+            >
+              Logout
+            </button>
           )}
-        </Routes>
-      </Router>
-    </div>
+        </div>
+      </div>
+    </nav>
+    <Routes>
+      <Route path="/" element={<Login onLogin={handleLogin} />} />
+      {isLoggedIn && (
+        <>
+          <Route path="/clients" element={<ClientList />} />
+          <Route path="/createClient" element={<CreateClient />} />
+          <Route path="/Client/edit/:clientId" element={<EditClient />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/createProduct" element={<CreateProduct />} />
+          <Route path="/Product/edit/:productId" element={<EditProduct />} />
+          <Route path="/invoices" element={<InvoiceList />} />
+          <Route path="/createInvoice" element={<CreateInvoice />} />
+          <Route path="/Invoice/edit/:invoiceId" element={<EditInvoice />} />
+          <Route path="/createUser" element={<CreateUser />} />
+          <Route path="/company" element={<CompanyDetails />} />
+        </>
+      )}
+    </Routes>
+  </Router>
+</div>
   );
 }
 

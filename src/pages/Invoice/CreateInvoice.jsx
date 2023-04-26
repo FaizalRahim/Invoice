@@ -245,7 +245,7 @@ return (
         ))}
       </tbody>
     </table>
-    <button type="submit" className="mt-4 px-4 py-2 bg-green-500 text-white rounded">Create</button>
+    <button type="submit" className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Create</button>
   </form>
 </div>
 );

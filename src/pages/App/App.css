@@ -1,18 +1,2 @@
-<!-- Wrap your content with this div to apply the styles -->
-<div class="mx-auto max-w-screen-xl p-8 text-center">
-  <!-- Logo styles -->
-  <img
-    src="logo_path"
-    alt="Logo"
-    class="h-24 p-6 transition duration-300 ease-in-out transform hover:drop-shadow-xl"
-  />
 
-  <!-- Card styles -->
-  <div class="p-8 bg-white shadow-md">
-    <!-- Card content -->
-  </div>
-
-  <!-- Read the docs styles -->
-  <p class="text-gray-500">Read the docs</p>
-</div>
 

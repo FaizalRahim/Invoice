@@ -58,45 +58,28 @@ const CreateUser = () => {
   };
 
   return (
-    <div>
-      <h1>Create User</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          {nameError && <p className="error">{nameError}</p>}
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {emailError && <p className="error">{emailError}</p>}
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {passwordError && <p className="error">{passwordError}</p>}
-        </div>
-        <button type="submit">Create User</button>
-      </form>
+    <div className="p-4 bg-white rounded-md shadow-md">
+  <h1 className="text-xl font-bold mb-4">Create User</h1>
+  <form className="space-y-4" onSubmit={handleSubmit}>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1" htmlFor="name">Name:</label>
+      <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+      {nameError && <p className="text-red-500 text-sm mt-1">{nameError}</p>}
     </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1" htmlFor="email">Email:</label>
+      <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
+    </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1" htmlFor="password">Password:</label>
+      <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
+    </div>
+    <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" type="submit">Create User</button>
+  </form>
+</div>
+
   );
 };
 

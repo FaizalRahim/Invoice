@@ -56,34 +56,35 @@ function CreateClient(props) {
   };
 
   return (
-    <div>
-      <h1>Create Client</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="companyName">Company Name:</label>
-          <input type="text" id="companyName" value={companyName} onChange={(event) => setCompanyName(event.target.value)} />
-        </div>
-        <div>
-          <label htmlFor="companyAddress">Company Address:</label>
-          <input type="text" id="companyAddress" value={companyAddress} onChange={(event) => setCompanyAddress(event.target.value)} />
-        </div>
-        <div>
-          <label htmlFor="personInCharge">Person in Charge:</label>
-          <input type="text" id="personInCharge" value={personInCharge} onChange={(event) => setPersonInCharge(event.target.value)} />
-        </div>
-        <div>
-          <label htmlFor="companyEmail">Company Email:</label>
-          <input type="email" id="companyEmail" value={companyEmail} onChange={(event) => setCompanyEmail(event.target.value)} />
-          {companyEmailError && <p className="error">{companyEmailError}</p>}
-        </div>
-        <div>
-          <label htmlFor="paymentTerm">Payment Term (Days):</label>
-          <input type="number" id="paymentTerm" value={paymentTerm} onChange={(event) => setPaymentTerm(event.target.value)} />
-          {paymentTermError && <p className="error">{paymentTermError}</p>}
-        </div>
-        <button type="submit">Create</button>
-      </form>
+    <div className="p-4 bg-white rounded-md shadow-md">
+  <h1 className="text-xl font-bold mb-4">Create Client</h1>
+  <form className="space-y-4" onSubmit={handleSubmit}>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1" htmlFor="companyName">Company Name:</label>
+      <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="companyName" value={companyName} onChange={(event) => setCompanyName(event.target.value)} />
     </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1" htmlFor="companyAddress">Company Address:</label>
+      <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="companyAddress" value={companyAddress} onChange={(event) => setCompanyAddress(event.target.value)} />
+    </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1" htmlFor="personInCharge">Person in Charge:</label>
+      <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="personInCharge" value={personInCharge} onChange={(event) => setPersonInCharge(event.target.value)} />
+    </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1" htmlFor="companyEmail">Company Email:</label>
+      <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="email" id="companyEmail" value={companyEmail} onChange={(event) => setCompanyEmail(event.target.value)} />
+      {companyEmailError && <p className="text-red-500 text-sm mt-1">{companyEmailError}</p>}
+    </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1" htmlFor="paymentTerm">Payment Term (Days):</label>
+      <input className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" type="number" id="paymentTerm" value={paymentTerm} onChange={(event) => setPaymentTerm(event.target.value)} />
+      {paymentTermError && <p className="text-red-500 text-sm mt-1">{paymentTermError}</p>}
+    </div>
+    <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" type="submit">Create</button>
+  </form>
+</div>
+
   );
 }
 

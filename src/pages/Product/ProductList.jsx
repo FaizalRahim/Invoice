@@ -55,18 +55,23 @@ function ProductList() {
   };
 
   return (
-    <div>
-      <h1>Products</h1>
-      <ul>
-        {products.map(product => (
-          <li key={product._id}>
-            <strong>{product.productName}</strong> 
-            <button onClick={() => handleDelete(product._id)}>Delete</button>
-            <button onClick={() => handleEdit(product._id)}>Edit</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <div className="p-4">
+  <h1 className="text-2xl font-bold mb-4">Products</h1>
+  <ul className="divide-y divide-gray-200">
+    {products.map(product => (
+      <li key={product._id} className="py-4 flex items-center justify-between">
+        <div className="flex flex-col">
+          <strong className="text-lg">{product.productName}</strong>
+        </div>
+        <div className="flex space-x-2">
+          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500 hover:bg-red-600" onClick={() => handleDelete(product._id)}>Delete</button>
+          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-green-500 hover:bg-green-600" onClick={() => handleEdit(product._id)}>Edit</button>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
   );
 }
 

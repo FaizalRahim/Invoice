@@ -46,18 +46,23 @@ function ClientList() {
   };
 
   return (
-    <div>
-      <h1>Clients</h1>
-      <ul>
-        {clients.map(client => (
-          <li key={client._id}>
-            <strong>{client.companyName}</strong> 
-            <button onClick={() => handleDelete(client._id)}>Delete</button>
-            <button onClick={() => handleEdit(client._id)}>Edit</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <h1 className="text-2xl font-bold mb-4">Clients</h1>
+  <ul className="divide-y divide-gray-200">
+    {clients.map(client => (
+      <li key={client._id} className="py-4 flex items-center justify-between">
+        <div className="flex flex-col">
+          <strong className="text-lg">{client.companyName}</strong>
+        </div>
+        <div className="flex space-x-2">
+          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500 hover:bg-red-600" onClick={() => handleDelete(client._id)}>Delete</button>
+          <button className="px-4 py-2 rounded-md text-sm font-medium text-white bg-green-500 hover:bg-green-600" onClick={() => handleEdit(client._id)}>Edit</button>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
   );
 }
 
