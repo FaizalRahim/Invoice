@@ -37,6 +37,11 @@ Send emails with invoices attached
 10) Validator
 11) Tailwind-DaisyUi
 
+# Model
+
+<img width="1152" alt="image" src="https://user-images.githubusercontent.com/122983127/234743151-1bbbc84c-aa5c-43e3-b2b3-b0520089f47c.png">
+
+
 
 # Biggest challenge
 
